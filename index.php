@@ -10,7 +10,7 @@ $result = mysqli_query($conn, "SELECT * FROM users");
 $number_of_results = mysqli_num_rows($result);
 
 // Calculate the total number of pages
-$number_of_pages = ceil($number_of_results / $results_per_page);
+$number_of_pages = ceil($number_of_results / $results_per_page);    
 
 // Determine which page number visitor is currently on
 if (!isset($_GET['page']) || $_GET['page'] < 1) {
@@ -87,7 +87,7 @@ $result = mysqli_query($conn, "SELECT * FROM users LIMIT $starting_limit, $resul
 
 <body>
     <div class="container">
-        <h2 class="text-center">View Records</h2>
+        <h1 class="text-center">View Records</h1>
 
         <!-- Admin-only button to add new user -->
         <div class="d-flex justify-content-end">
