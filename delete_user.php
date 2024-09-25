@@ -8,7 +8,7 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($conn, "SELECT photo FROM users WHERE id='$id'");
     $user = mysqli_fetch_assoc($result);
 
-    // Check if the user exists
+    // Check if the user exists 
     if ($user) {
         $photo_path = $user['photo'];
     
@@ -19,18 +19,16 @@ if (isset($_GET['id'])) {
             if (file_exists($photo_path)) {
                 unlink($photo_path); // Remove photo from server
             }
-    
-            // Use JavaScript to show an alert after successful deletion
-            echo "<script>
-                alert('User has been successfully deleted.');
-                window.location.href = 'index.php'; // Redirect after alert
-            </script>";
+            echo "User deleted successfully.";
         } else {
-            echo "Error deleting record: " . mysqli_error($conn);
+            echo "Error deleting user: " . mysqli_error($conn);
         }
     } else {
         echo "User not found.";
     }
-    
 }
+
+// Redirect back to the user view page after deletion
+header("Location: index.php");
+exit;
 ?>

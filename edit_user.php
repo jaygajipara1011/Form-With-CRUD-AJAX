@@ -15,22 +15,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status = $_POST['status'];
 
     // Handle file upload
-    // Remove the old photo if it exists
-    if (!empty($user['photo']) && file_exists($user['photo'])) {
-        unlink($user['photo']); // Remove old photo
-    }
+    $photo_path = $user['photo']; // By default, keep the old photo path
 
-    // Upload the new photo
-    $photo = $_FILES['photo'];
-    $photo_path = 'uploads/' . basename($photo['name']);
+    // Check if a new file was uploaded
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
+        // Remove the old photo if it exists
+        if (!empty($user['photo']) && file_exists($user['photo'])) {
+            unlink($user['photo']); // Remove old photo
+        }
 
-    // Move the uploaded file
-    if (move_uploaded_file($photo['tmp_name'], $photo_path)) {
-        // Update the photo path in the user array or database as needed
-        $user['photo'] = $photo_path; // Update user photo path
-    } else {
-        echo "Error uploading file.";
-        exit; // Stop execution if the file upload fails
+        // Upload the new photo
+        $photo = $_FILES['photo'];
+        $photo_path = 'uploads/' . basename($photo['name']);
+
+        // Move the uploaded file
+        if (!move_uploaded_file($photo['tmp_name'], $photo_path)) {
+            echo "Error uploading file.";
+            exit; // Stop execution if the file upload fails
+        }
     }
 
     // WARNING: This approach is not secure against SQL injection
@@ -46,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
