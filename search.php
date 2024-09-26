@@ -15,7 +15,7 @@ $query_base = "SELECT * FROM users";
 
 // Add search conditions if a search term is provided
 if ($search) {
-    $query_base .= " WHERE id LIKE '%$search%' OR
+    $query_base .= " WHERE id LIKE '$search%' OR
                      name LIKE '%$search%' OR
                      email LIKE '%$search%' OR
                      username LIKE '%$search%' OR

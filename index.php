@@ -9,7 +9,7 @@ $query_base = "SELECT * FROM users";
 
 // Add search conditions if a search term is provided
 if ($search) {
-    $query_base .= " WHERE id LIKE '%$search%' OR
+    $query_base .= " WHERE id LIKE '$search%' OR
                      name LIKE '%$search%' OR
                      email LIKE '%$search%' OR
                      username LIKE '%$search%' OR
@@ -37,9 +37,10 @@ if (!$result) {
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body style="background-image: url('https://png.pngtree.com/background/20210715/original/pngtree-pink-blue-gradient-background-picture-image_1285856.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; color: #fff;">
+
     <div class="container">
-        <h2 class="text-center">View Records</h2>
+        <h2 class="text-center text-dark">View Records</h2>
 
         <!-- Search Form -->
         <form method="GET" id="searchForm">
@@ -53,8 +54,8 @@ if (!$result) {
                     </div>
                 </div>
                 <div class="col-auto ms-auto">
-                    <a href="add_user.php" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add New User
+                    <a href="add_user.php" class="btn btn-dark">
+                        <i class="fas fa-plus"></i> <b>Add New User</b>
                     </a>
                 </div>
             </div>
@@ -118,10 +119,10 @@ if (!$result) {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {  
         const searchInput = document.getElementById('searchInput');
         const userTableBody = document.querySelector('tbody');
 
