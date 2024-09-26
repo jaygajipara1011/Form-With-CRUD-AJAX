@@ -15,7 +15,11 @@ if (isset($_GET['search'])) {
 // Find out the number of results stored in the database based on the search
 $query = "SELECT * FROM users";
 if ($search) {
-    $query .= " WHERE id LIKE '%$search%' OR name LIKE '%$search%' OR email LIKE '%$search%' OR username LIKE '%$search%' OR status LIKE '$search%'";
+    $query .= " WHERE id LIKE '%$search%' OR
+     name LIKE '%$search%' OR
+     email LIKE '%$search%' OR
+     username LIKE '%$search%' OR
+    status LIKE '$search%'";
 }
 $result = mysqli_query($conn, $query);
 
@@ -120,7 +124,12 @@ if (!$result) {
         <form method="GET" id="searchForm">
             <div class="row mb-3 align-items-end">
                 <div class="col-auto">
-                    <input type="text" class="form-control" placeholder="Search..." name="search" id="searchInput" value="<?php echo htmlspecialchars($search); ?>">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Search..." name="search" id="searchInput" value="<?php echo htmlspecialchars($search); ?>">
+                    </div>
                 </div>
                 <div class="col-auto ms-auto">
                     <a href="add_user.php" class="btn btn-primary">
@@ -129,6 +138,7 @@ if (!$result) {
                 </div>
             </div>
         </form>
+
 
         <!-- Table to display users -->
         <div class="table-responsive text-center">
@@ -213,35 +223,33 @@ if (!$result) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Automatically focus the search input field on page load and place cursor at the end
-        window.onload = function() {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.focus();
-            searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length); // Set cursor to end
-        };
-
-        // Automatically submit the search form on input change
+    document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
+        const userTableBody = document.querySelector('tbody');
 
         searchInput.addEventListener('input', function() {
-            if (this.value.length < 1) {
-                // Redirect to index.php if the search input is empty
-                window.location.href = 'index.php';
-                return;
-            }
-            // Delay submission to allow for typing
-            setTimeout(() => {
-                document.getElementById('searchForm').submit();
-            }, 1000); // Adjust the delay as needed
-        });
+            const searchQuery = this.value;
 
-        function confirmDelete(userId) {
-            if (confirm('Are you sure you want to delete this user?')) {
-                // If the user confirms, redirect to the delete script
-                window.location.href = 'delete_user.php?id=' + userId;
-            }
+            // Use AJAX to fetch filtered results
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'search.php?search=' + encodeURIComponent(searchQuery), true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    userTableBody.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });
+    });
+
+    function confirmDelete(userId) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            window.location.href = 'delete_user.php?id=' + userId;
         }
-    </script>
+    }
+</script>
+
+
 </body>
 
 </html>

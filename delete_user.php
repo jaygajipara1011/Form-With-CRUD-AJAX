@@ -8,7 +8,7 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($conn, "SELECT photo FROM users WHERE id='$id'");
     $user = mysqli_fetch_assoc($result);
 
-    // Check if the user exists 
+    // Check if the user exists     
     if ($user) {
         $photo_path = $user['photo'];
     
