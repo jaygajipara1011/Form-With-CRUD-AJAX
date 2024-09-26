@@ -1,47 +1,24 @@
 <?php
 include 'db.php'; // Include your database connection
 
-// Define how many results you want per page
-$results_per_page = 10;
-
 // Initialize search variable
-$search = "";
+$search = mysqli_real_escape_string($conn, $_GET['search'] ?? '');
 
-// Check if a search term has been submitted
-if (isset($_GET['search'])) {
-    $search = mysqli_real_escape_string($conn, $_GET['search']);
-}
+// Build the base query
+$query_base = "SELECT * FROM users";
 
-// Find out the number of results stored in the database based on the search
-$query = "SELECT * FROM users";
+// Add search conditions if a search term is provided
 if ($search) {
-    $query .= " WHERE id LIKE '%$search%' OR
-     name LIKE '%$search%' OR
-     email LIKE '%$search%' OR
-     username LIKE '%$search%' OR
-    status LIKE '$search%'";
-}
-$result = mysqli_query($conn, $query);
-
-// Check for query error
-if (!$result) {
-    die("Query failed: " . mysqli_error($conn));
+    $query_base .= " WHERE id LIKE '%$search%' OR
+                     name LIKE '%$search%' OR
+                     email LIKE '%$search%' OR
+                     username LIKE '%$search%' OR
+                     password LIKE '%$search%' OR
+                     status LIKE '$search%'";
 }
 
-$number_of_results = mysqli_num_rows($result);
-
-// Calculate the total number of pages
-$number_of_pages = ceil($number_of_results / $results_per_page);
-
-// Determine which page number the visitor is currently on
-$page = max(1, (int) ($_GET['page'] ?? 1));
-
-// Determine the SQL LIMIT starting number for the results on the current page
-$starting_limit = ($page - 1) * $results_per_page;
-
-// Fetch the users for the current page with search
-$query .= " LIMIT $starting_limit, $results_per_page";
-$result = mysqli_query($conn, $query);
+// Execute the query to fetch all users based on search
+$result = mysqli_query($conn, $query_base);
 
 // Check for query error
 if (!$result) {
@@ -51,69 +28,13 @@ if (!$result) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Records</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        .container {
-            margin-top: 50px;
-        }
-
-        .no-records {
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-
-        .pagination {
-            margin-top: 20px;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: #fe4196;
-            border-color: #fe4196;
-            color: white;
-        }
-
-        .pagination .page-item .page-link {
-            color: #fa1e05;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .pagination .page-item .page-link:hover {
-            background-color: #ff0090;
-            color: white;
-        }
-
-        .user-photo {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            /* Ensure images fit well */
-        }
-
-        .table th,
-        .table td {
-            border: none;
-        }
-
-        tbody tr:nth-child(odd) {
-            background-color: white;
-            /* Light grey for odd rows */
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-            /* White for even rows */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -138,7 +59,6 @@ if (!$result) {
                 </div>
             </div>
         </form>
-
 
         <!-- Table to display users -->
         <div class="table-responsive text-center">
@@ -196,28 +116,6 @@ if (!$result) {
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination -->
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <?php
-                // Link to previous page
-                if ($page > 1) {
-                    echo '<li class="page-item"><a class="page-link" href="?page=' . ($page - 1) . '&search=' . urlencode($search) . '">Previous</a></li>';
-                }
-
-                // Links to pages
-                for ($i = 1; $i <= $number_of_pages; $i++) {
-                    echo '<li class="page-item' . ($i == $page ? ' active' : '') . '"><a class="page-link" href="?page=' . $i . '&search=' . urlencode($search) . '">' . $i . '</a></li>';
-                }
-
-                // Link to next page
-                if ($page < $number_of_pages) {
-                    echo '<li class="page-item"><a class="page-link" href="?page=' . ($page + 1) . '&search=' . urlencode($search) . '">Next</a></li>';
-                }
-                ?>
-            </ul>
-        </nav>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
