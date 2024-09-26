@@ -34,6 +34,7 @@ if (!$result) {
     <title>View Records</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://c8.alamy.com/comp/2F6N1B5/view-report-icon-outline-view-report-vector-icon-for-web-design-isolated-on-white-background-2F6N1B5.jpg">
     <link rel="stylesheet" href="style.css">
 </head>
 
