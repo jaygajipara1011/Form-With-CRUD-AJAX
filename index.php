@@ -28,6 +28,7 @@ if (!$result) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,31 +124,31 @@ if (!$result) {
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {  
-        const searchInput = document.getElementById('searchInput');
-        const userTableBody = document.querySelector('tbody');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const userTableBody = document.querySelector('tbody');
 
-        searchInput.addEventListener('input', function() {
-            const searchQuery = this.value;
+            searchInput.addEventListener('input', function() {
+                const searchQuery = this.value;
 
-            // Use AJAX to fetch filtered results
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'search.php?search=' + encodeURIComponent(searchQuery), true);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    userTableBody.innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send();
+                // Use AJAX to fetch filtered results
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'search.php?search=' + encodeURIComponent(searchQuery), true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        userTableBody.innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.send();
+            });
         });
-    });
 
-    function confirmDelete(userId) {
-        if (confirm('Are you sure you want to delete this user?')) {
-            window.location.href = 'delete_user.php?id=' + userId;
+        function confirmDelete(userId) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                window.location.href = 'delete_user.php?id=' + userId;
+            }
         }
-    }
-</script>
+    </script>
 
 
 </body>
