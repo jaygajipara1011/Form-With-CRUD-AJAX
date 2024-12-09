@@ -1,57 +1,55 @@
 .container {
-    margin-top: 50px;
-}
-
-.btn-add {
-    margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .no-records {
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f9fa;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
 }
 
 .pagination {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #fe4196;
-    border-color: #fe4196;
-    color: white;
+  background-color: #fe4196;
+  border-color: #fe4196;
+  color: white;
 }
 
 .pagination .page-item .page-link {
-    color: #fa1e05;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+  color: #fa1e05;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .pagination .page-item .page-link:hover {
-    background-color: #ff0090;
-    color: white;
+  background-color: #ff0090;
+  color: white;
 }
 
 .user-photo {
-    width: 100px;
-    height: 100px;  
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  /* Ensure images fit well */
 }
 
 .table th,
 .table td {
-    border: none;
+  border: none;
 }
+
 tbody tr:nth-child(odd) {
-    background-color: white; /* Light grey for odd rows */
+  background-color: white;
+  /* Light grey for odd rows */
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f2f2f2; /* White for even rows */
+  background-color: #f2f2f2;
+  /* White for even rows */
 }
-.border-0 {
-    border: 0 !important;
-    background-color: #ffffff;
-}
+

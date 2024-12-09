@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Create a raw SQL query
         $sql = "INSERT INTO users (name, email, username, password, status, photo) 
                 VALUES ('$name', '$email', '$username', '$password', '$status', '$photo_path')";
-        
+
         // Execute the SQL query
         if ($conn->query($sql) === TRUE) {
             echo "<script>
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "Error uploading file.";
     }
-}
+}   
 ?>
 
 <!DOCTYPE html>
@@ -43,28 +43,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3450/3450043.png">
 
 </head>
-<body>
-    <div class="container">
-        <h2 class="text-center">Add New User</h2>
+<body >
+    <div class="container w-50">
+        <h2 class="text-center"><b>Add New User</b></h2>
         <form method="POST" action="add_user.php" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
+                <label for="name" class="form-label"><b>Name</b></label>
                 <input type="text" class="form-control" name="name" required>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label"><b>Email</b></label>
                 <input type="email" class="form-control" name="email" required>
             </div>
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
+                <label for="username" class="form-label"><b>Username</b></label>
                 <input type="text" class="form-control" name="username" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label"><b>Password</b></label>
                 <input type="password" class="form-control" name="password" required>
             </div>
             <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
+                <label for="status" class="form-label"><b>Status</b></label>
                 <select class="form-select" name="status" required>
                     <option value="" selected disabled>Select Status</option>
                     <option value="Active">Active</option>
@@ -73,10 +73,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </select>
             </div>
             <div class="mb-3">
-                <label for="photo" class="form-label">Photo</label>
+                <label for="photo" class="form-label"><b>Photo</b></label>
                 <input type="file" class="form-control" name="photo" accept="image/*" required>
             </div>
-            <button type="submit" class="btn btn-primary">Add User</button>
+            <button type="submit" class="btn btn-dark"><b>Add User</b></button>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

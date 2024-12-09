@@ -3,18 +3,34 @@ include 'db.php'; // Include your database connection
 
 $search = mysqli_real_escape_string($conn, $_GET['search'] ?? '');
 
-// Build the query
-$query = "SELECT * FROM users";
-if ($search) {
-    $query .= " WHERE id LIKE '%$search%' OR
-     name LIKE '%$search%' OR
-     email LIKE '%$search%' OR
-     username LIKE '%$search%' OR
-     status LIKE '$search%'";
-}
-$query .= " LIMIT 10"; // Limit to 10 results
+// Set the number of results per page
+$results_per_page = 20;
 
-$result = mysqli_query($conn, $query);
+// Get the current page number from the URL, default to 1 if not set
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$start_from = ($page - 1) * $results_per_page;
+
+// Build the base query
+$query_base = "SELECT * FROM users";
+
+// Add search conditions if a search term is provided
+if ($search) {
+    $query_base .= " WHERE id LIKE '$search%' OR
+                     name LIKE '%$search%' OR
+                     email LIKE '%$search%' OR
+                     username LIKE '%$search%' OR
+                     password LIKE '%$search%' OR
+                     status LIKE '$search%'";
+}
+
+// Get the total number of results for pagination
+$result_total = mysqli_query($conn, $query_base);
+$total_results = mysqli_num_rows($result_total);
+$total_pages = ceil($total_results / $results_per_page);
+
+// Modify the base query to limit results for the current page
+$query_base .= " LIMIT $start_from, $results_per_page";
+$result = mysqli_query($conn, $query_base);
 
 // Check for query error
 if (!$result) {
@@ -49,4 +65,9 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo '<tr><td colspan="8" class="no-records text-center">No records found</td></tr>';
 }
+
+// Display pagination links
+echo '<tr><td colspan="8" class="text-center">';
+
+echo '</td></tr>';
 ?>
